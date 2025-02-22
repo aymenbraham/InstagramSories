@@ -12,4 +12,5 @@ struct Story: Identifiable, Codable {
     let userID: Int
     let imageURL: String
     var isSeen: Bool
+    var isLiked: Bool
 }

@@ -7,8 +7,17 @@
 
 import Foundation
 
-struct User: Identifiable, Codable {
+struct UsersResponse: Decodable {
+    let pages: [Page]
+}
+
+struct Page: Decodable {
+    let users: [User]
+}
+
+struct User: Identifiable, Decodable {
     let id: Int
     let name: String
-    let profilePictureURL: String
+    let profile_picture_url: String
+    var story: Story?
 }

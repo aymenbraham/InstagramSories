@@ -13,7 +13,7 @@ struct StoryItemView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: user.profilePictureURL)) { image in
+            AsyncImage(url: URL(string: user.profile_picture_url)) { image in
                 image.resizable()
             } placeholder: {
                 ProgressView()
