@@ -52,10 +52,8 @@ class StoryViewModel: ObservableObject {
     }
     
     func markStoryAsSeen(forUserID userID: Int) {
-        // Find the user by userID
         if let userIndex = users.firstIndex(where: { $0.id == userID }) {
             var user = users[userIndex]
-            // Check if the user has a story, then mark it as seen
             if var story = user.story, !story.isSeen {
                 story.isSeen = true
                 user.story = story  // Update the user's story

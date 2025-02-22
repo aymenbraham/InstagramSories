@@ -9,18 +9,17 @@ import SwiftUI
 
 struct StoryListView: View {
     @StateObject private var viewModel = StoryViewModel()
-    @State private var selectedUser: User? = nil  // Changed to store the user
+    @State private var selectedUser: User? = nil
     @State private var isPresentingSheet = false
     
-
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 ForEach(viewModel.users) { user in
                     StoryItemView(user: user, story: user.story ?? Story(id: 0, userID: 0, imageURL: "", isSeen: false, isLiked: false))
                         .onTapGesture {
-                            selectedUser = user 
-                            viewModel.markStoryAsSeen(forUserID: user.id)
+                            selectedUser = user
+                            viewModel.markStoryAsSeen(forUserID: user.id)  // Mark as seen when tapped
                             isPresentingSheet.toggle()
                         }
                 }
@@ -29,12 +28,15 @@ struct StoryListView: View {
             Spacer()
         }
         .fullScreenCover(isPresented: $isPresentingSheet) {
-            if let selectedUser = selectedUser {
-                StoryView(user: selectedUser, isPresented: $isPresentingSheet)
-            }
+            StoryView(user: $selectedUser, isPresented: $isPresentingSheet)
         }
-        .onAppear() {
+        .onAppear {
             viewModel.loadUsers()
+        } .onChange(of: selectedUser) { newUser in
+            if let user = newUser {
+                viewModel.markStoryAsSeen(forUserID: user.id)
+            }
+            
         }
     }
 }
